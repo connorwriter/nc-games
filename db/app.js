@@ -15,8 +15,9 @@ app.use("*", (req, res, next) => {
 app.use((err, req, res, next) => {
   if (err.status === 404) {
     res.status(err.status).send(err.msg);
+  } else if (err.code === "22P02") {
+    res.status(400).send("Please enter a valid review_id");
   } else {
-    console.log(err);
     res.status(500).send("Server Error!");
   }
 });
