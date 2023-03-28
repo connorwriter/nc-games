@@ -3,8 +3,7 @@ const seed = require("../db/seeds/seed.js");
 const testData = require("../db/data/test-data/index.js");
 const request = require("supertest");
 const app = require("../db/app.js");
-const { getCategories } = require("../db/controllers/categories-controller.js");
-const { getReviewById } = require("../db/controllers/reviews-controller.js");
+require("jest-sorted");
 
 beforeEach(() => {
   return seed(testData);
@@ -31,7 +30,7 @@ describe("GET: /api/categories", () => {
 describe("errors", () => {
   it("should return an error message if there is an spelling error in the endpoint", () => {
     return request(app)
-      .get("/api/caetgories", getCategories)
+      .get("/api/caetgories")
       .expect(404)
       .then(({ body }) => {
         expect(body.msg).toBe("Invalid input");
@@ -42,7 +41,7 @@ describe("errors", () => {
 describe("GET: /api/reviews/:review_id", () => {
   it("should return the review asked for in the get request", () => {
     return request(app)
-      .get("/api/reviews/1", getReviewById)
+      .get("/api/reviews/1")
       .expect(200)
       .then(({ body }) => {
         expect(body.review).toHaveProperty("review_id", 1);
@@ -61,7 +60,7 @@ describe("GET: /api/reviews/:review_id", () => {
   });
   it("should return an error message when there is a request for an invalid review_id", () => {
     return request(app)
-      .get("/api/reviews/1000", getReviewById)
+      .get("/api/reviews/1000")
       .expect(404)
       .then((result) => {
         expect(result.text).toInclude("No review found for review_id:");
@@ -69,10 +68,40 @@ describe("GET: /api/reviews/:review_id", () => {
   });
   it("should return an error message when there is a request for an invalid review_id", () => {
     return request(app)
-      .get("/api/reviews/review", getReviewById)
+      .get("/api/reviews/review")
       .expect(400)
       .then((result) => {
         expect(result.text).toInclude("Please enter a valid review_id");
+      });
+  });
+});
+describe("GET /api/reviews", () => {
+  it("should return a reviews array of review objects with comment count", () => {
+    return request(app)
+      .get("/api/reviews")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.reviews).toHaveLength(13);
+        body.reviews.forEach((review) => {
+          expect(review).toHaveProperty("review_id");
+          expect(review).toHaveProperty("title", expect.any(String));
+          expect(review).toHaveProperty("category", expect.any(String));
+          expect(review).toHaveProperty("designer", expect.any(String));
+          expect(review).toHaveProperty("owner", expect.any(String));
+          expect(review).toHaveProperty("review_body", expect.any(String));
+          expect(review).toHaveProperty("created_at", expect.any(String));
+          expect(review).toHaveProperty("votes", expect.any(Number));
+          expect(review).toHaveProperty("comment_count");
+        });
+      });
+  });
+  it("should return reviews sorted by date in descending order", () => {
+    return request(app)
+      .get("/api/reviews")
+      .then((result) => {
+        expect(result.body.reviews).toBeSortedBy("created_at", {
+          descending: true,
+        });
       });
   });
 });
