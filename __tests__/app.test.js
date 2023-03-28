@@ -103,7 +103,6 @@ describe.only("GET /api/reviews", () => {
     return request(app)
       .get("/api/reviews", getReviews)
       .then((result) => {
-        console.log(result);
         expect(result._body.reviews).toBeSorted();
       });
   });
