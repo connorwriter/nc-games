@@ -1,10 +1,7 @@
 const db = require("../connection.js");
 
 exports.fetchReviews = () => {
-  let fetchReviewsQueryString = "SELECT * FROM reviews";
-
-  fetchReviewsQueryString +=
-    " LEFT JOIN comments ON reviews.review_id = comments.review_id  ORDER BY reviews.created_at DESC";
+  let fetchReviewsQueryString = `SELECT reviews.*, COUNT(comments.review_id) AS comment_count FROM reviews LEFT JOIN comments on reviews.review_id = comments.review_id GROUP BY reviews.review_id ORDER BY reviews.created_at DESC;`;
 
   return db.query(fetchReviewsQueryString).then((result) => {
     return result.rows;
