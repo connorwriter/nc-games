@@ -100,7 +100,6 @@ describe("GET /api/reviews", () => {
     return request(app)
       .get("/api/reviews")
       .then((result) => {
-        console.log(result.body.reviews);
         expect(result.body.reviews).toBeSortedBy("created_at", {
           descending: true,
         });
