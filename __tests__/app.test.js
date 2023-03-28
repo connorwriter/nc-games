@@ -4,7 +4,10 @@ const testData = require("../db/data/test-data/index.js");
 const request = require("supertest");
 const app = require("../db/app.js");
 const { getCategories } = require("../db/controllers/categories-controller.js");
-const { getReviews } = require("../db/controllers/reviews-controller.js");
+const {
+  getReviews,
+  getReviewsById,
+} = require("../db/controllers/reviews-controller.js");
 require("jest-sorted");
 
 beforeEach(() => {
@@ -77,7 +80,7 @@ describe("GET: /api/reviews/:review_id", () => {
       });
   });
 });
-describe.only("GET /api/reviews", () => {
+describe("GET /api/reviews", () => {
   it("should return a reviews array of review objects", () => {
     return request(app)
       .get("/api/reviews", getReviews)
