@@ -9,14 +9,16 @@ exports.fetchReviews = (review_id) => {
     queryParameters.push(review_id);
   }
 
+  fetchReviewsQueryString +=
+    " LEFT JOIN comments ON reviews.review_id = comments.review_id  ORDER BY reviews.created_at DESC";
+
   return db.query(fetchReviewsQueryString, queryParameters).then((result) => {
-    const review = result.rows;
-    if (review.length === 0) {
+    if (result.rows.length === 0) {
       return Promise.reject({
         status: 404,
         msg: `No review found for review_id: ${review_id}`,
       });
     }
-    return review;
+    return result.rows;
   });
 };
