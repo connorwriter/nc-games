@@ -105,3 +105,54 @@ describe("GET /api/reviews", () => {
       });
   });
 });
+describe("GET: /api/reviews/:review_id/comments", () => {
+  it("should return the comments for the inputted review", () => {
+    return request(app)
+      .get("/api/reviews/2/comments")
+      .then((result) => {
+        const { comments } = result.body;
+        expect(comments).toHaveLength(3);
+      });
+  });
+  it("should include the following properties", () => {
+    return request(app)
+      .get("/api/reviews/2/comments")
+      .then((result) => {
+        const { comments } = result.body;
+        comments.forEach((comment) => {
+          expect(comment).toHaveProperty("comment_id", expect.any(Number));
+          expect(comment).toHaveProperty("body", expect.any(String));
+          expect(comment).toHaveProperty("review_id", expect.any(Number));
+          expect(comment).toHaveProperty("author", expect.any(String));
+          expect(comment).toHaveProperty("votes", expect.any(Number));
+          expect(comment).toHaveProperty("created_at", expect.any(String));
+        });
+      });
+  });
+  it("should return results in order of most recent comments first", () => {
+    return request(app)
+      .get("/api/reviews/2/comments")
+      .then((result) => {
+        const { comments } = result.body;
+        expect(comments).toBeSortedBy("created_at", {
+          descending: true,
+        });
+      });
+  });
+  it("should return an error message when there is a request for an invalid review_id", () => {
+    return request(app)
+      .get("/api/reviews/1000/comments")
+      .expect(404)
+      .then((result) => {
+        expect(result.text).toInclude("No comments found for review_id:");
+      });
+  });
+  it("should return an error message when there is a request for an invalid review_id", () => {
+    return request(app)
+      .get("/api/reviews/review/comments")
+      .expect(400)
+      .then((result) => {
+        expect(result.text).toInclude("Please enter a valid review_id");
+      });
+  });
+});
