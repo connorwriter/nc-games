@@ -122,7 +122,7 @@ describe("GET: /api/reviews/:review_id/comments", () => {
         comments.forEach((comment) => {
           expect(comment).toHaveProperty("comment_id", expect.any(Number));
           expect(comment).toHaveProperty("body", expect.any(String));
-          expect(comment).toHaveProperty("review_id", expect.any(Number));
+          expect(comment).toHaveProperty("review_id", 2);
           expect(comment).toHaveProperty("author", expect.any(String));
           expect(comment).toHaveProperty("votes", expect.any(Number));
           expect(comment).toHaveProperty("created_at", expect.any(String));
@@ -141,18 +141,18 @@ describe("GET: /api/reviews/:review_id/comments", () => {
   });
   it("should return an error message when there is a request for an invalid review_id", () => {
     return request(app)
-      .get("/api/reviews/1000/comments")
-      .expect(404)
-      .then((result) => {
-        expect(result.text).toInclude("No comments found for review_id:");
-      });
-  });
-  it("should return an error message when there is a request for an invalid review_id", () => {
-    return request(app)
       .get("/api/reviews/review/comments")
       .expect(400)
       .then((result) => {
         expect(result.text).toInclude("Please enter a valid review_id");
+      });
+  });
+  it("should return 200 for an article that exists but has no comments", () => {
+    return request(app)
+      .get("/api/reviews/1/comments")
+      .expect(200)
+      .then((result) => {
+        expect(result.text).toInclude("No comments found for review_id:");
       });
   });
 });
