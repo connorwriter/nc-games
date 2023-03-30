@@ -30,9 +30,10 @@ exports.patchReviewVotes = (req, res, next) => {
   const { review_id } = req.params;
   Promise.all([checkReviewExists(review_id), updateReviewVotes(req)])
     .then((result) => {
-      res.status(200).send({ review: result });
+      res.status(200).send({ review: result[1] });
     })
     .catch((err) => {
+      console.log(err);
       next(err);
     });
 };

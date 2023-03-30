@@ -26,6 +26,18 @@ exports.checkCommentsExist = async (review_id) => {
   }
 };
 
+exports.checkCommentExists = async (comment_id) => {
+  const dbOutput = await db.query(
+    "SELECT * FROM comments WHERE comment_id = $1;",
+    [comment_id]
+  );
+
+  if (dbOutput.rows.length === 0) {
+    // resource does NOT exist
+    return Promise.reject({ status: 404, msg: `This comment does not exist` });
+  }
+};
+
 exports.createCommentByReviewId = (review_id, body) => {
   return db
     .query(`SELECT * FROM users;`)
@@ -50,5 +62,15 @@ exports.createCommentByReviewId = (review_id, body) => {
         .then((comment) => {
           return comment.rows[0];
         });
+    });
+};
+
+exports.removeComment = (comment_id) => {
+  return db
+    .query(`DELETE FROM comments WHERE comment_id = $1 RETURNING *;`, [
+      comment_id,
+    ])
+    .then((result) => {
+      return result.rows[0];
     });
 };
