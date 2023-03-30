@@ -147,7 +147,7 @@ describe("GET: /api/reviews/:review_id/comments", () => {
       .get("/api/reviews/review/comments")
       .expect(400)
       .then((result) => {
-        expect(result.text).toInclude("invalid id");
+        expect(result.body.msg).toInclude("invalid id");
       });
   });
   it("should return 200 for an article that exists but has no comments", () => {
@@ -155,7 +155,7 @@ describe("GET: /api/reviews/:review_id/comments", () => {
       .get("/api/reviews/1/comments")
       .expect(200)
       .then((result) => {
-        expect(result.text).toInclude("No comments found for review_id:");
+        expect(result.body.msg).toInclude("No comments found for review_id:");
       });
   });
 });

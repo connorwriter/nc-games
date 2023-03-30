@@ -2,7 +2,6 @@ const {
   fetchReviews,
   fetchReviewsById,
 } = require("../models/reviews-model.js");
-const { lookForReview } = require("../models/reviews-model.js");
 
 exports.getReviewsById = (req, res, next) => {
   const { review_id } = req.params;
