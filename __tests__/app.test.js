@@ -4,6 +4,9 @@ const testData = require("../db/data/test-data/index.js");
 const request = require("supertest");
 const app = require("../db/app.js");
 require("jest-sorted");
+const {
+  checkReviewExists,
+} = require("../db/controllers/reviews-controller.js");
 
 beforeEach(() => {
   return seed(testData);
@@ -71,7 +74,7 @@ describe("GET: /api/reviews/:review_id", () => {
       .get("/api/reviews/review")
       .expect(400)
       .then((result) => {
-        expect(result.text).toInclude("Please enter a valid review_id");
+        expect(result.text).toInclude("invalid id");
       });
   });
 });
@@ -144,7 +147,7 @@ describe("GET: /api/reviews/:review_id/comments", () => {
       .get("/api/reviews/review/comments")
       .expect(400)
       .then((result) => {
-        expect(result.text).toInclude("Please enter a valid review_id");
+        expect(result.text).toInclude("invalid id");
       });
   });
   it("should return 200 for an article that exists but has no comments", () => {
@@ -153,6 +156,70 @@ describe("GET: /api/reviews/:review_id/comments", () => {
       .expect(200)
       .then((result) => {
         expect(result.text).toInclude("No comments found for review_id:");
+      });
+  });
+});
+
+describe("POST: /api/reviews/:review_id/comments", () => {
+  it("should post a comment to a review", () => {
+    const comment = { username: "mallionaire", body: "This is a test comment" };
+
+    return request(app)
+      .post("/api/reviews/1/comments")
+      .send(comment)
+      .expect(201)
+      .then((result) => {
+        const { comment } = result.body;
+        expect(comment).toHaveProperty("comment_id", expect.any(Number));
+        expect(comment).toHaveProperty("body", "This is a test comment");
+        expect(comment).toHaveProperty("review_id", 1);
+        expect(comment).toHaveProperty("author", "mallionaire");
+        expect(comment).toHaveProperty("votes", 0);
+        expect(comment).toHaveProperty("created_at", expect.any(String));
+      });
+  });
+  it("should return a 404 error if a valid review id but id doesn't exist", () => {
+    const comment = { username: "mallionaire", body: "This is a test comment" };
+
+    return request(app)
+      .post("/api/reviews/1000/comments")
+      .send(comment)
+      .expect(404)
+      .then((result) => {
+        expect(result.body.msg).toBe("review doesn't exist");
+      });
+  });
+  it("should return a 400 error if the user attempts to post to an invalid review", () => {
+    const comment = { username: "mallionaire", body: "This is a test comment" };
+
+    return request(app)
+      .post("/api/reviews/banana/comments")
+      .send(comment)
+      .expect(400)
+      .then((result) => {
+        expect(result.body.msg).toBe("invalid id");
+      });
+  });
+  it("should return a 400 error if the user attempts to post to a review and is not a user", () => {
+    const comment = { username: "connor", body: "This is a test comment" };
+
+    return request(app)
+      .post("/api/reviews/1/comments")
+      .send(comment)
+      .expect(400)
+      .then((result) => {
+        expect(result.body.msg).toBe("invalid user");
+      });
+  });
+  it("should return a 400 error if the user attempts to post a review without a review body", () => {
+    const comment = { username: "mallionaire" };
+
+    return request(app)
+      .post("/api/reviews/1/comments")
+      .send(comment)
+      .expect(400)
+      .then((result) => {
+        expect(result.body.msg).toBe("bad request");
       });
   });
 });
