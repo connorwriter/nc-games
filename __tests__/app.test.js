@@ -231,7 +231,7 @@ describe("PATCH: /api/reviews/:review_id", () => {
       .send({ inc_votes: 1 })
       .expect(200)
       .then((result) => {
-        expect(result.body.review[1].votes).toBe(2);
+        expect(result.body.review.votes).toBe(2);
       });
   });
   it("should respond with the updated review, with it's votes decremented", () => {
@@ -240,7 +240,7 @@ describe("PATCH: /api/reviews/:review_id", () => {
       .send({ inc_votes: -100 })
       .expect(200)
       .then((result) => {
-        expect(result.body.review[1].votes).toBe(-99);
+        expect(result.body.review.votes).toBe(-99);
       });
   });
   it("should return a 404 error if the user tries to patch to a review that is valid, but doesn't exist", () => {
