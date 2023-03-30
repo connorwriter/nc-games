@@ -280,3 +280,28 @@ describe("PATCH: /api/reviews/:review_id", () => {
       });
   });
 });
+
+describe("DELETE /api/comments/:comment_id", () => {
+  it("Should delete a comment by given id", () => {
+    return request(app)
+      .delete("/api/comments/1")
+      .expect(204)
+      .then((result) => {});
+  });
+  it("should return a 404 error if the user tries to delete a comment that doesn't exist", () => {
+    return request(app)
+      .delete("/api/comments/1000")
+      .expect(404)
+      .then((result) => {
+        expect(result.body.msg).toBe("This comment does not exist");
+      });
+  });
+  it("should return a 400 error if the user tries to delete a comment that doesn't exist", () => {
+    return request(app)
+      .delete("/api/comments/banana")
+      .expect(400)
+      .then((result) => {
+        expect(result.body.msg).toBe("invalid id");
+      });
+  });
+});

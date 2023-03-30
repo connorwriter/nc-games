@@ -8,6 +8,7 @@ const {
 const {
   getCommentsByReviewId,
   postCommentByReviewId,
+  deleteComment,
 } = require("./db/controllers/comments-controller.js");
 
 const app = express();
@@ -24,6 +25,8 @@ app.get("/api/reviews/:review_id/comments", getCommentsByReviewId);
 app.post("/api/reviews/:review_id/comments", postCommentByReviewId);
 
 app.patch("/api/reviews/:review_id", patchReviewVotes);
+
+app.delete("/api/comments/:comment_id", deleteComment);
 
 app.use("*", (req, res, next) => {
   res.status(404).send({ msg: "Invalid input" });
