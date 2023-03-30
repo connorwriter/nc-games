@@ -3,6 +3,7 @@ const { getCategories } = require("./db/controllers/categories-controller.js");
 const {
   getReviewsById,
   getReviews,
+  patchReviewVotes,
 } = require("./db/controllers/reviews-controller.js");
 const {
   getCommentsByReviewId,
@@ -22,13 +23,15 @@ app.get("/api/reviews/:review_id/comments", getCommentsByReviewId);
 
 app.post("/api/reviews/:review_id/comments", postCommentByReviewId);
 
+app.patch("/api/reviews/:review_id", patchReviewVotes);
+
 app.use("*", (req, res, next) => {
   res.status(404).send({ msg: "Invalid input" });
 });
 
 app.use((err, req, res, next) => {
   if (err.status === 404) {
-    res.status(err.status).send(err.msg);
+    res.status(err.status).send({ msg: err.msg });
   } else if (err.code === "22P02") {
     res.status(400).send({ msg: "invalid id" });
   } else if (err.status === 200) {

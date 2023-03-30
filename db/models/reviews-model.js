@@ -25,3 +25,29 @@ exports.fetchReviewsById = (review_id) => {
     return result.rows;
   });
 };
+
+exports.updateReviewVotes = (req) => {
+  const { inc_votes } = req.body;
+  const { review_id } = req.params;
+  return db
+    .query(
+      `UPDATE reviews
+    SET votes = votes + $1 
+    WHERE review_id = $2 RETURNING *;`,
+      [inc_votes, review_id]
+    )
+    .then((result) => {
+      return result.rows[0];
+    });
+};
+
+exports.checkReviewExists = async (review_id) => {
+  const dbOutput = await db.query(
+    "SELECT * FROM reviews WHERE review_id = $1;",
+    [review_id]
+  );
+  if (dbOutput.rows.length === 0) {
+    // resource does NOT exist
+    return Promise.reject({ status: 404, msg: `This review does not exist` });
+  }
+};

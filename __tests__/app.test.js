@@ -223,3 +223,60 @@ describe("POST: /api/reviews/:review_id/comments", () => {
       });
   });
 });
+
+describe("PATCH: /api/reviews/:review_id", () => {
+  it("should respond with the updated review, with it's votes incremented", () => {
+    return request(app)
+      .patch("/api/reviews/1")
+      .send({ inc_votes: 1 })
+      .expect(200)
+      .then((result) => {
+        expect(result.body.review[1].votes).toBe(2);
+      });
+  });
+  it("should respond with the updated review, with it's votes decremented", () => {
+    return request(app)
+      .patch("/api/reviews/1")
+      .send({ inc_votes: -100 })
+      .expect(200)
+      .then((result) => {
+        expect(result.body.review[1].votes).toBe(-99);
+      });
+  });
+  it("should return a 404 error if the user tries to patch to a review that is valid, but doesn't exist", () => {
+    return request(app)
+      .patch("/api/reviews/1000")
+      .send({ inc_votes: 2 })
+      .expect(404)
+      .then((result) => {
+        expect(result.body.msg).toBe("This review does not exist");
+      });
+  });
+  it("should return a 404 error if the user tries to patch to an invalid review", () => {
+    return request(app)
+      .patch("/api/reviews/hello")
+      .send({ inc_votes: 1 })
+      .expect(400)
+      .then((result) => {
+        expect(result.body.msg).toInclude("invalid id");
+      });
+  });
+  it("should return 400 if the user input is incorrect", () => {
+    return request(app)
+      .patch("/api/reviews/1")
+      .send({ votes: 1 })
+      .expect(400)
+      .then((result) => {
+        expect(result.body.msg).toBe("bad request");
+      });
+  });
+  it("should return 400 if the votes value is not a number", () => {
+    return request(app)
+      .patch("/api/reviews/1")
+      .send({ votes: "ten" })
+      .expect(400)
+      .then((result) => {
+        expect(result.body.msg).toBe("bad request");
+      });
+  });
+});
