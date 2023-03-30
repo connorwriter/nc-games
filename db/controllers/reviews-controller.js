@@ -33,6 +33,7 @@ exports.patchReviewVotes = (req, res, next) => {
       res.status(200).send({ review: result[1] });
     })
     .catch((err) => {
+      console.log(err);
       next(err);
     });
 };

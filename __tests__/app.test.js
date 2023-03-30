@@ -74,7 +74,7 @@ describe("GET: /api/reviews/:review_id", () => {
       .get("/api/reviews/review")
       .expect(400)
       .then((result) => {
-        expect(result.text).toInclude("invalid id");
+        expect(result.text).toInclude("invalid request");
       });
   });
 });
@@ -147,7 +147,7 @@ describe("GET: /api/reviews/:review_id/comments", () => {
       .get("/api/reviews/review/comments")
       .expect(400)
       .then((result) => {
-        expect(result.body.msg).toInclude("invalid id");
+        expect(result.body.msg).toInclude("invalid request");
       });
   });
   it("should return 200 for an article that exists but has no comments", () => {
@@ -197,7 +197,7 @@ describe("POST: /api/reviews/:review_id/comments", () => {
       .send(comment)
       .expect(400)
       .then((result) => {
-        expect(result.body.msg).toBe("invalid id");
+        expect(result.body.msg).toBe("invalid request");
       });
   });
   it("should return a 400 error if the user attempts to post to a review and is not a user", () => {
@@ -252,13 +252,13 @@ describe("PATCH: /api/reviews/:review_id", () => {
         expect(result.body.msg).toBe("This review does not exist");
       });
   });
-  it("should return a 404 error if the user tries to patch to an invalid review", () => {
+  it("should return a 400 error if the user tries to patch to an invalid review", () => {
     return request(app)
       .patch("/api/reviews/hello")
       .send({ inc_votes: 1 })
       .expect(400)
       .then((result) => {
-        expect(result.body.msg).toInclude("invalid id");
+        expect(result.body.msg).toInclude("invalid request");
       });
   });
   it("should return 400 if the user input is incorrect", () => {
@@ -273,10 +273,10 @@ describe("PATCH: /api/reviews/:review_id", () => {
   it("should return 400 if the votes value is not a number", () => {
     return request(app)
       .patch("/api/reviews/1")
-      .send({ votes: "ten" })
+      .send({ inc_votes: "ten" })
       .expect(400)
       .then((result) => {
-        expect(result.body.msg).toBe("bad request");
+        expect(result.body.msg).toBe("invalid request");
       });
   });
 });
@@ -301,7 +301,7 @@ describe("DELETE /api/comments/:comment_id", () => {
       .delete("/api/comments/banana")
       .expect(400)
       .then((result) => {
-        expect(result.body.msg).toBe("invalid id");
+        expect(result.body.msg).toBe("invalid request");
       });
   });
 });

@@ -36,7 +36,7 @@ app.use((err, req, res, next) => {
   if (err.status === 404) {
     res.status(err.status).send({ msg: err.msg });
   } else if (err.code === "22P02") {
-    res.status(400).send({ msg: "invalid id" });
+    res.status(400).send({ msg: "invalid request" });
   } else if (err.status === 200) {
     res.status(err.status).send({ msg: err.msg });
   } else if (err.code === "23503") {

@@ -15,7 +15,6 @@ exports.getCommentsByReviewId = (req, res, next) => {
   ])
     .then((result) => {
       if (result[0].length === 0) {
-        console.log(result[0]);
         res.status(200).send({ msg: "There are no comments for this review" });
       }
       res.status(200).send({ comments: result[0] });
