@@ -1,13 +1,13 @@
 const express = require("express");
-const { getCategories } = require("../db/controllers/categories-controller.js");
+const { getCategories } = require("./db/controllers/categories-controller.js");
 const {
   getReviewsById,
   getReviews,
-} = require("../db/controllers/reviews-controller.js");
+} = require("./db/controllers/reviews-controller.js");
 const {
   getCommentsByReviewId,
   postCommentByReviewId,
-} = require("../db/controllers/comments-controller.js");
+} = require("./db/controllers/comments-controller.js");
 
 const app = express();
 app.use(express.json());
