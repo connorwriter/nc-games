@@ -25,3 +25,30 @@ exports.checkCommentsExist = async (review_id) => {
     return Promise.reject({ status: 404, msg: `This review does not exist` });
   }
 };
+
+exports.createCommentByReviewId = (review_id, body) => {
+  return db
+    .query(`SELECT * FROM users;`)
+    .then((result) => {
+      let isUser = false;
+      result.rows.forEach((user) => {
+        if (user.username === body.username) {
+          isUser = true;
+        }
+      });
+      if (isUser === false) {
+        return Promise.reject({ status: 401, msg: "invalid user" });
+      }
+    })
+    .then((result) => {
+      return db
+        .query(
+          `INSERT INTO comments(author, body, review_id, created_at, votes)
+      VALUES ($1, $2, $3, $4, $5) RETURNING *;`,
+          [body.username, body.body, review_id, new Date().toISOString(), 0]
+        )
+        .then((comment) => {
+          return comment.rows[0];
+        });
+    });
+};
