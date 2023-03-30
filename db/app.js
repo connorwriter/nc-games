@@ -8,10 +8,9 @@ const {
   getCommentsByReviewId,
   postCommentByReviewId,
 } = require("../db/controllers/comments-controller.js");
-const bodyParser = require("body-parser");
 
 const app = express();
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.get("/api/categories", getCategories);
 
@@ -31,16 +30,17 @@ app.use((err, req, res, next) => {
   if (err.status === 404) {
     res.status(err.status).send(err.msg);
   } else if (err.code === "22P02") {
-    res.status(400).send("invalid id");
+    res.status(400).send({ msg: "invalid id" });
   } else if (err.status === 200) {
     res.status(err.status).send(err.msg);
   } else if (err.code === "23503") {
-    res.status(404).send("review doesn't exist");
-  } else if (err.status === 401) {
-    res.status(401).send(err.msg);
+    res.status(404).send({ msg: "review doesn't exist" });
   } else if (err.code === "23502") {
-    res.status(400).send("bad request");
+    res.status(400).send({ msg: "bad request" });
+  } else if (err.status === 400) {
+    res.status(400).send({ msg: err.msg });
   } else {
+    console.log(err);
     res.status(500).send("Server Error!");
   }
 });

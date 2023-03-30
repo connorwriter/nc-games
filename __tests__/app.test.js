@@ -186,7 +186,7 @@ describe("POST: /api/reviews/:review_id/comments", () => {
       .send(comment)
       .expect(404)
       .then((result) => {
-        expect(result.text).toBe("review doesn't exist");
+        expect(result.body.msg).toBe("review doesn't exist");
       });
   });
   it("should return a 400 error if the user attempts to post to an invalid review", () => {
@@ -197,18 +197,18 @@ describe("POST: /api/reviews/:review_id/comments", () => {
       .send(comment)
       .expect(400)
       .then((result) => {
-        expect(result.text).toBe("invalid id");
+        expect(result.body.msg).toBe("invalid id");
       });
   });
-  it("should return a 401 error if the user attempts to post to a review and is not a user", () => {
+  it("should return a 400 error if the user attempts to post to a review and is not a user", () => {
     const comment = { username: "connor", body: "This is a test comment" };
 
     return request(app)
       .post("/api/reviews/1/comments")
       .send(comment)
-      .expect(401)
+      .expect(400)
       .then((result) => {
-        expect(result.text).toBe("invalid user");
+        expect(result.body.msg).toBe("invalid user");
       });
   });
   it("should return a 400 error if the user attempts to post a review without a review body", () => {
@@ -219,7 +219,7 @@ describe("POST: /api/reviews/:review_id/comments", () => {
       .send(comment)
       .expect(400)
       .then((result) => {
-        expect(result.text).toBe("bad request");
+        expect(result.body.msg).toBe("bad request");
       });
   });
 });

@@ -37,7 +37,7 @@ exports.createCommentByReviewId = (review_id, body) => {
         }
       });
       if (isUser === false) {
-        return Promise.reject({ status: 401, msg: "invalid user" });
+        return Promise.reject({ status: 400, msg: "invalid user" });
       }
     })
     .then((result) => {
