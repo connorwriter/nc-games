@@ -34,9 +34,10 @@ This is to ensure that you can create and access the two databases locally.
 
 # Tests
 
-To run tests - in your code editor terminal, run the command "npm t
+To run tests - in your code editor terminal, run the command "npm t"
 
 # Requirements
 
 The minimum version of PostgreSQL required to run this app is 14.7
+
 The minimum version of Node.js required to run this app is v18.14.1
