@@ -107,6 +107,37 @@ describe("GET /api/reviews", () => {
         });
       });
   });
+  it("should return reviews by category", () => {
+    return request(app)
+      .get("/api/reviews?category=euro+game")
+      .expect(200)
+      .then((result) => {
+        result.body.reviews.forEach((review) => {
+          expect(review.category).toBe("euro game");
+        });
+      });
+  });
+  it("should accept multiple queries and return the appropriate data", () => {
+    return request(app)
+      .get("/api/reviews?category=social+deduction&sort_by=owner&order=DESC")
+      .expect(200)
+      .then((result) => {
+        result.body.reviews.forEach((entry) => {
+          expect(entry.category).toBe("social deduction");
+        });
+        expect(result.body.reviews).toBeSortedBy("owner", {
+          descending: true,
+        });
+      });
+  });
+  it("400: should reject invalid queries", () => {
+    return request(app)
+      .get("/api/reviews?category=hacker&sort_by=owner&order=DESC")
+      .expect(400)
+      .then((result) => {
+        expect(result.body.msg).toBe("bad request");
+      });
+  });
 });
 describe("GET: /api/reviews/:review_id/comments", () => {
   it("should return the comments for the inputted review", () => {

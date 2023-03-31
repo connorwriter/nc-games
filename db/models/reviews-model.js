@@ -1,9 +1,72 @@
 const db = require("../connection.js");
 
-exports.fetchReviews = () => {
-  let fetchReviewsQueryString = `SELECT reviews.*, COUNT(comments.review_id) AS comment_count FROM reviews LEFT JOIN comments on reviews.review_id = comments.review_id GROUP BY reviews.review_id ORDER BY reviews.created_at DESC;`;
+exports.fetchReviews = (query) => {
+  const queryParameters = [];
+  let category = "";
+  let sort_by = "";
+  let order = "";
+  if (query) {
+    category = query.category;
+    sort_by = query.sort_by;
+    order = query.order;
+  }
 
-  return db.query(fetchReviewsQueryString).then((result) => {
+  const categoryGreenList = ["euro game", "dexterity", "social deduction"];
+  const sortByGreenList = [
+    "title",
+    "designer",
+    "owner",
+    "review_img_url",
+    "review_body",
+    "category",
+    "created_at",
+    "votes",
+  ];
+  const orderGreenList = ["ASC", "DESC"];
+
+  let fetchReviewsQueryString = `SELECT reviews.*, COUNT(comments.review_id) AS comment_count FROM reviews LEFT JOIN comments on reviews.review_id = comments.review_id`;
+
+  if (category !== undefined) {
+    let isValidCategory = false;
+    categoryGreenList.forEach((entry) => {
+      if (entry === category) isValidCategory = true;
+    });
+    if (isValidCategory === true) {
+      fetchReviewsQueryString += ` WHERE reviews.category = '${category}'`;
+    } else {
+      return Promise.reject({ status: 400, msg: `bad request` });
+    }
+  }
+
+  if (sort_by !== undefined) {
+    let isValidSortBy = false;
+    sortByGreenList.forEach((entry) => {
+      if (entry === sort_by) isValidSortBy = true;
+    });
+    if (isValidSortBy === true) {
+      fetchReviewsQueryString += ` GROUP BY reviews.review_id ORDER BY ${sort_by}`;
+    } else {
+      return Promise.reject({ status: 400, msg: `bad request` });
+    }
+  } else {
+    fetchReviewsQueryString += ` GROUP BY reviews.review_id ORDER BY reviews.created_at`;
+  }
+
+  if (order !== undefined) {
+    let isValidOrder = false;
+    orderGreenList.forEach((entry) => {
+      if (entry === order.toUpperCase()) isValidOrder = true;
+    });
+    if (isValidOrder === true) {
+      fetchReviewsQueryString += ` ${order};`;
+    } else {
+      return Promise.reject({ status: 400, msg: `bad request` });
+    }
+  } else {
+    fetchReviewsQueryString += ` DESC;`;
+  }
+
+  return db.query(fetchReviewsQueryString, queryParameters).then((result) => {
     return result.rows;
   });
 };
