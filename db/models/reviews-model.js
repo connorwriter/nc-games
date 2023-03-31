@@ -1,12 +1,6 @@
 const db = require("../connection.js");
 
 exports.fetchReviews = (category, sort_by, order) => {
-  const categoryGreenList = [
-    "euro game",
-    "dexterity",
-    "social deduction",
-    "children's games",
-  ];
   const sortByGreenList = [
     "title",
     "designer",
@@ -22,18 +16,10 @@ exports.fetchReviews = (category, sort_by, order) => {
   let fetchReviewsQueryString = `SELECT reviews.*, COUNT(comments.review_id) AS comment_count FROM reviews LEFT JOIN comments on reviews.review_id = comments.review_id`;
 
   if (category !== undefined) {
-    let isValidCategory = false;
-    categoryGreenList.forEach((entry) => {
-      if (entry === category) isValidCategory = true;
-    });
-    if (isValidCategory === true) {
-      if (category === "children's games") {
-        fetchReviewsQueryString += ` WHERE reviews.category = 'children''s games'`;
-      } else {
-        fetchReviewsQueryString += ` WHERE reviews.category = '${category}'`;
-      }
+    if (category === "children's games") {
+      fetchReviewsQueryString += ` WHERE reviews.category = 'children''s games'`;
     } else {
-      return Promise.reject({ status: 404, msg: `category not found` });
+      fetchReviewsQueryString += ` WHERE reviews.category = '${category}'`;
     }
   }
 

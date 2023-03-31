@@ -1,3 +1,4 @@
+const { checkCategoryExists } = require("../models/categories-model.js");
 const {
   fetchReviews,
   fetchReviewsById,
@@ -18,17 +19,34 @@ exports.getReviewsById = (req, res, next) => {
 
 exports.getReviews = (req, res, next) => {
   const { category, sort_by, order } = req.query;
-  fetchReviews(category, sort_by, order)
-    .then((result) => {
-      if (result.length === 0) {
-        res.status(200).send({ msg: "no reviews for this category" });
-      } else {
-        res.status(200).send({ reviews: result });
-      }
-    })
-    .catch((err) => {
-      next(err);
-    });
+  if (category !== undefined) {
+    Promise.all([
+      fetchReviews(category, sort_by, order),
+      checkCategoryExists(category),
+    ])
+      .then((result) => {
+        if (result[0].length === 0) {
+          res.status(200).send({ msg: "no reviews for this category" });
+        } else {
+          res.status(200).send({ reviews: result[0] });
+        }
+      })
+      .catch((err) => {
+        next(err);
+      });
+  } else {
+    Promise.all([fetchReviews(category, sort_by, order)])
+      .then((result) => {
+        if (result[0].length === 0) {
+          res.status(200).send({ msg: "no reviews for this category" });
+        } else {
+          res.status(200).send({ reviews: result[0] });
+        }
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
 };
 
 exports.patchReviewVotes = (req, res, next) => {

@@ -145,7 +145,7 @@ describe("GET /api/reviews", () => {
       .get("/api/reviews?category=hacker&sort_by=owner&order=DESC")
       .expect(404)
       .then((result) => {
-        expect(result.body.msg).toBe("category not found");
+        expect(result.body.msg).toBe("category doesn't exist");
       });
   });
   it("should return 200 when queried with a valid category, but no reviews exist", () => {
