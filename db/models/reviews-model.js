@@ -1,17 +1,12 @@
 const db = require("../connection.js");
 
-exports.fetchReviews = (query) => {
-  const queryParameters = [];
-  let category = "";
-  let sort_by = "";
-  let order = "";
-  if (query) {
-    category = query.category;
-    sort_by = query.sort_by;
-    order = query.order;
-  }
-
-  const categoryGreenList = ["euro game", "dexterity", "social deduction"];
+exports.fetchReviews = (category, sort_by, order) => {
+  const categoryGreenList = [
+    "euro game",
+    "dexterity",
+    "social deduction",
+    "children's games",
+  ];
   const sortByGreenList = [
     "title",
     "designer",
@@ -32,9 +27,13 @@ exports.fetchReviews = (query) => {
       if (entry === category) isValidCategory = true;
     });
     if (isValidCategory === true) {
-      fetchReviewsQueryString += ` WHERE reviews.category = '${category}'`;
+      if (category === "children's games") {
+        fetchReviewsQueryString += ` WHERE reviews.category = 'children''s games'`;
+      } else {
+        fetchReviewsQueryString += ` WHERE reviews.category = '${category}'`;
+      }
     } else {
-      return Promise.reject({ status: 400, msg: `bad request` });
+      return Promise.reject({ status: 404, msg: `category not found` });
     }
   }
 
@@ -66,7 +65,7 @@ exports.fetchReviews = (query) => {
     fetchReviewsQueryString += ` DESC;`;
   }
 
-  return db.query(fetchReviewsQueryString, queryParameters).then((result) => {
+  return db.query(fetchReviewsQueryString).then((result) => {
     return result.rows;
   });
 };

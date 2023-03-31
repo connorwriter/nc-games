@@ -132,7 +132,35 @@ describe("GET /api/reviews", () => {
   });
   it("400: should reject invalid queries", () => {
     return request(app)
+      .get(
+        "/api/reviews?category=social+deduction&sort_by=wrong+info&order=DESC"
+      )
+      .expect(400)
+      .then((result) => {
+        expect(result.body.msg).toBe("bad request");
+      });
+  });
+  it("should return 404 when queried with an invalid category", () => {
+    return request(app)
       .get("/api/reviews?category=hacker&sort_by=owner&order=DESC")
+      .expect(404)
+      .then((result) => {
+        expect(result.body.msg).toBe("category not found");
+      });
+  });
+  it("should return 200 when queried with a valid category, but no reviews exist", () => {
+    return request(app)
+      .get("/api/reviews?category=children's+games&sort_by=owner&order=DESC")
+      .expect(200)
+      .then((result) => {
+        expect(result.body.msg).toBe("no reviews for this category");
+      });
+  });
+  it("should return 400 when queried with an invalid sort by", () => {
+    return request(app)
+      .get(
+        "/api/reviews?category=social+deduction&sort_by=nonexistent&order=DESC"
+      )
       .expect(400)
       .then((result) => {
         expect(result.body.msg).toBe("bad request");

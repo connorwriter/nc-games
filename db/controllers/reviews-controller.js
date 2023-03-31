@@ -17,9 +17,14 @@ exports.getReviewsById = (req, res, next) => {
 };
 
 exports.getReviews = (req, res, next) => {
-  fetchReviews(req.query)
+  const { category, sort_by, order } = req.query;
+  fetchReviews(category, sort_by, order)
     .then((result) => {
-      res.status(200).send({ reviews: result });
+      if (result.length === 0) {
+        res.status(200).send({ msg: "no reviews for this category" });
+      } else {
+        res.status(200).send({ reviews: result });
+      }
     })
     .catch((err) => {
       next(err);
