@@ -11,7 +11,7 @@ exports.checkCategoryExists = (category) => {
   let checkCategoryQueryString = `SELECT * FROM categories WHERE slug = $1;`;
   return db.query(checkCategoryQueryString, [category]).then((result) => {
     if (result.rows.length === 0) {
-      return Promise.reject({ status: 404, msg: "category doesn't exist" });
+      return Promise.reject({ status: 404, msg: "category not found" });
     }
   });
 };
