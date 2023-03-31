@@ -1,6 +1,21 @@
 # Northcoders House of Games API
 
+# Visit the website
+
+https://nc-games-8it8.onrender.com/
+
+# Summary
+
+This project is a forum of board game reviews. Users are able to comment on reviews, upvote reviews, and delete comments.
+
 # Cloning the repo
+
+1. clone the repo from github to your local desktop
+2. open the repo in a code editor
+3. install dependencies - in your code editor terminal, run the command "npm install"
+4. setup db - in your code editor terminal, run the command "npm run setup-dbs"
+5. seed database - in your code editor terminal, run the command "npm run seed"
+6. run tests - in your code editor terminal, run the command "npm t"
 
 After cloning, you must add two new files to the repository:
 '.env.development' & 'env.test'
@@ -10,3 +25,8 @@ The contents of each file will be:
 .env.test: PGDATABASE=nc_games_test
 
 This is to ensure that you can create and access the two databases locally.
+
+# Requirements
+
+The minimum version of PostgreSQL required to run this app is 14.7
+The minimum version of Node.js required to run this app is v18.14.1
