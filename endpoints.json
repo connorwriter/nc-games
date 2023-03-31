@@ -30,5 +30,89 @@
         }
       ]
     }
+  },
+  "GET /api/reviews/:review_id": {
+    "description": "serves a specific review",
+    "queries": [],
+    "exampleResponse": {
+      "review": {
+        "review_id": 1,
+        "title": "Culture a Love of Agriculture With Agricola",
+        "category": "strategy",
+        "designer": "Uwe Rosenberg",
+        "owner": "tickle122",
+        "review_body": "You could sum up Agricola with the simple phrase 'Farmyard Fun' but the mechanics and game play add so much more than that. You'll find yourself torn between breeding pigs, or sowing crops. Its joyeous and rewarding and it makes you think of time spent outside, which is much harder to do these days!",
+        "review_img_url": "https://images.pexels.com/photos/974314/pexels-photo-974314.jpeg?w=700&h=700",
+        "created_at": "2021-01-18T10:00:20.514Z",
+        "votes": 1,
+        "comment_count": 0
+        }  
+    }
+  },
+  "GET /api/reviews/:review_id/comments": {
+    "description": "serves an array of all comments on a specific review",
+    "queries": [],
+    "exampleResponse": {
+      "comments": [
+        {
+        "comment_id": 10,
+        "body": "Ex id ipsum dolore non cillum anim sint duis nisi anim deserunt nisi minim.",
+        "review_id": 2,
+        "author": "grumpy19",
+        "votes": 9,
+        "created_at": "2021-03-27T14:15:31.110Z"
+        }
+        ]
+    }
+  },
+  "POST /api/reviews/:review_id/comments": {
+    "description": "creates a new comment and links it to a specific review",
+    "queries": [],
+    "exampleResponse": {
+      "comment": {
+        "comment_id": 7,
+        "body": "This is a test comment",
+        "review_id": 1,
+        "author": "mallionaire",
+        "votes": 0,
+        "created_at": "2023-03-31T13:30:33.854Z"
+      }
+    }
+  },
+  "PATCH /api/reviews/:review_id": {
+    "description": "updates the votes on a specific review",
+    "queries": [],
+    "exampleResponse": {
+      "review": {
+        "review_id": 1,
+        "title": "Agricola",
+        "category": "euro game",
+        "designer": "Uwe Rosenberg",
+        "owner": "mallionaire",
+        "review_body": "Farmyard fun!",
+        "review_img_url": "https://images.pexels.com/photos/974314/pexels-photo-974314.jpeg?w=700&h=700",
+        "created_at": "2021-01-18T10:00:20.514Z",
+        "votes": 2
+      }
+    }
+  },
+  "DELETE /api/comments/:comment_id": {
+    "description": "removes a comment by id",
+    "queries": [],
+    "exampleResponse": {
+    }
+  },
+  "GET /api/users": {
+    "description": "serves an array of users",
+    "queries": [],
+    "exampleResponse": {
+      "users": [
+        {
+        "username": "tickle122",
+        "name": "Tom Tickle",
+        "avatar_url": "https://vignette.wikia.nocookie.net/mrmen/images/d/d6/Mr-Tickle-9a.png/revision/latest?cb=20180127221953"
+        }
+        ]
+    }
   }
 }
