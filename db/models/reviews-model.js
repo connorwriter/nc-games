@@ -57,10 +57,10 @@ exports.fetchReviews = (category, sort_by, order) => {
 };
 
 exports.fetchReviewsById = (review_id) => {
-  let fetchReviewsQueryString = "SELECT * FROM reviews";
+  let fetchReviewsQueryString =
+    "SELECT reviews.*, CAST(COUNT(comments.review_id) AS int) AS comment_count FROM reviews LEFT JOIN comments ON reviews.review_id = comments.review_id";
   const queryParameters = [];
-
-  fetchReviewsQueryString += ` WHERE review_id = $1`;
+  fetchReviewsQueryString += ` WHERE reviews.review_id = $1 GROUP BY reviews.review_id;`;
   queryParameters.push(review_id);
 
   return db.query(fetchReviewsQueryString, queryParameters).then((result) => {
