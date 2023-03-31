@@ -59,7 +59,14 @@ describe("GET: /api/reviews/:review_id", () => {
         );
         expect(body.review).toHaveProperty("created_at", expect.any(String));
         expect(body.review).toHaveProperty("votes", expect.any(Number));
-        expect(body.review).toHaveProperty("comment_count", expect.any(Number));
+      });
+  });
+  it("should return a count of the comments on each review", () => {
+    return request(app)
+      .get("/api/reviews/1")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.review).toHaveProperty("comment_count", 0);
       });
   });
   it("should return an error message when there is a request for an invalid review_id", () => {
