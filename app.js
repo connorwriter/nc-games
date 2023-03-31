@@ -31,6 +31,10 @@ app.delete("/api/comments/:comment_id", deleteComment);
 
 app.get("/api/users", getUsers);
 
+app.get("/api", (req, res, next) => {
+  res.status(200).json(require("./endpoints.json"));
+});
+
 app.use("*", (req, res, next) => {
   res.status(404).send({ msg: "Invalid input" });
 });
