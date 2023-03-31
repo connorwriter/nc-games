@@ -107,6 +107,65 @@ describe("GET /api/reviews", () => {
         });
       });
   });
+  it("should return reviews by category", () => {
+    return request(app)
+      .get("/api/reviews?category=euro+game")
+      .expect(200)
+      .then((result) => {
+        result.body.reviews.forEach((review) => {
+          expect(review.category).toBe("euro game");
+        });
+      });
+  });
+  it("should accept multiple queries and return the appropriate data", () => {
+    return request(app)
+      .get("/api/reviews?category=social+deduction&sort_by=owner&order=DESC")
+      .expect(200)
+      .then((result) => {
+        result.body.reviews.forEach((entry) => {
+          expect(entry.category).toBe("social deduction");
+        });
+        expect(result.body.reviews).toBeSortedBy("owner", {
+          descending: true,
+        });
+      });
+  });
+  it("400: should reject invalid queries", () => {
+    return request(app)
+      .get(
+        "/api/reviews?category=social+deduction&sort_by=wrong+info&order=DESC"
+      )
+      .expect(400)
+      .then((result) => {
+        expect(result.body.msg).toBe("bad request");
+      });
+  });
+  it("should return 404 when queried with an invalid category", () => {
+    return request(app)
+      .get("/api/reviews?category=hacker&sort_by=owner&order=DESC")
+      .expect(404)
+      .then((result) => {
+        expect(result.body.msg).toBe("category not found");
+      });
+  });
+  it("should return 200 when queried with a valid category, but no reviews exist", () => {
+    return request(app)
+      .get("/api/reviews?category=children's+games&sort_by=owner&order=DESC")
+      .expect(200)
+      .then((result) => {
+        expect(result.body.msg).toBe("no reviews for this category");
+      });
+  });
+  it("should return 400 when queried with an invalid sort by", () => {
+    return request(app)
+      .get(
+        "/api/reviews?category=social+deduction&sort_by=nonexistent&order=DESC"
+      )
+      .expect(400)
+      .then((result) => {
+        expect(result.body.msg).toBe("bad request");
+      });
+  });
 });
 describe("GET: /api/reviews/:review_id/comments", () => {
   it("should return the comments for the inputted review", () => {

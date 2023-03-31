@@ -1,7 +1,55 @@
 const db = require("../connection.js");
 
-exports.fetchReviews = () => {
-  let fetchReviewsQueryString = `SELECT reviews.*, COUNT(comments.review_id) AS comment_count FROM reviews LEFT JOIN comments on reviews.review_id = comments.review_id GROUP BY reviews.review_id ORDER BY reviews.created_at DESC;`;
+exports.fetchReviews = (category, sort_by, order) => {
+  const sortByGreenList = [
+    "title",
+    "designer",
+    "owner",
+    "review_img_url",
+    "review_body",
+    "category",
+    "created_at",
+    "votes",
+  ];
+  const orderGreenList = ["ASC", "DESC"];
+
+  let fetchReviewsQueryString = `SELECT reviews.*, COUNT(comments.review_id) AS comment_count FROM reviews LEFT JOIN comments on reviews.review_id = comments.review_id`;
+
+  if (category !== undefined) {
+    if (category === "children's games") {
+      fetchReviewsQueryString += ` WHERE reviews.category = 'children''s games'`;
+    } else {
+      fetchReviewsQueryString += ` WHERE reviews.category = '${category}'`;
+    }
+  }
+
+  if (sort_by !== undefined) {
+    let isValidSortBy = false;
+    sortByGreenList.forEach((entry) => {
+      if (entry === sort_by) isValidSortBy = true;
+    });
+    if (isValidSortBy === true) {
+      fetchReviewsQueryString += ` GROUP BY reviews.review_id ORDER BY ${sort_by}`;
+    } else {
+      return Promise.reject({ status: 400, msg: `bad request` });
+    }
+  } else {
+    fetchReviewsQueryString += ` GROUP BY reviews.review_id ORDER BY reviews.created_at`;
+  }
+
+  if (order !== undefined) {
+    let isValidOrder = false;
+    orderGreenList.forEach((entry) => {
+      if (entry === order.toUpperCase()) isValidOrder = true;
+    });
+    if (isValidOrder === true) {
+      fetchReviewsQueryString += ` ${order};`;
+    } else {
+      return Promise.reject({ status: 400, msg: `bad request` });
+    }
+  } else {
+    fetchReviewsQueryString += ` DESC;`;
+  }
 
   return db.query(fetchReviewsQueryString).then((result) => {
     return result.rows;
