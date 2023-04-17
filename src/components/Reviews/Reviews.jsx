@@ -24,14 +24,16 @@ export const Reviews = () => {
         <main>
         <Header />
         <section>
-        <h2>Reviews</h2>
-        <ul>
+        <h2 className="review-list-title">Reviews</h2>
+        <ul className="review-list">
             {isLoading ? <li>Loading</li> : reviews.map(review => {
                 return <li key={review.review_id}>
                     <h3>{review.title}</h3>
                     <h4>{review.owner}</h4>
-                    <p>{review.designer}</p>
-                    <p>{review.category}</p>
+                    <div>
+                    <p>Designer: {review.designer}</p>
+                    <p className="review-category">{review.category}</p>
+                    </div>
                 </li>
             })}
         </ul>
