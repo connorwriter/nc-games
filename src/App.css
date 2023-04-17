@@ -1,38 +1,92 @@
-.App {
-  text-align: center;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Header */
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+    border-bottom: 1px solid black;
+    padding: 20px 0 20px 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+header > nav > h1 {
+    text-align: left;
+    padding: 0 0 20px 40px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+header > nav > ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: flex-start;
 }
 
-.App-link {
-  color: #61dafb;
+header li, header a {
+    margin: 0 40px 0 40px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+
+/* Review List */
+
+.review-list-title {
+    text-align: left;
+    padding-left: 40px;
+}
+
+.review-list > li {
+    list-style-type: none;
+    margin: 40px;
+}
+
+.review-list li h3, .review-list li h4 {
+    margin: 10px 0 10px 0;
+}
+
+.review-list li div {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.review-category {
+    background-color: #54dbb6;
+    padding: 10px;
+    margin-left: 20px;
+    border-radius: 5px;
+}
+@media screen and (max-width: 600px) {
+    .review-list > li {
+        border-bottom: 1px solid black;
+        padding: 20px 0;
+    }
+ }
+
+@media screen and (min-width: 600px) and (max-width: 1200px) {
+    .review-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(120px);
+    }
+
+    .review-list li {
+        border: 1px solid black;
+        padding: 20px;
+        }
+}
+
+@media screen and (min-width: 1200px) {
+        .review-list {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(120px);
+        }
+
+        .review-list > li {
+        border: 1px solid black;
+        padding: 20px;
+        }
 }
