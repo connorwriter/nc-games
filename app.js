@@ -11,8 +11,10 @@ const {
   deleteComment,
 } = require("./db/controllers/comments-controller.js");
 const { getUsers } = require("./db/controllers/users-controller.js");
+const cors = require("cors");
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 app.get("/api/categories", getCategories);
