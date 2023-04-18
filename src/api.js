@@ -16,7 +16,7 @@ export const getReviewById = (review_id) => {
   });
 };
 
-export const getComments = (review_id) => {
+export const getCommentsById = (review_id) => {
   return ncGamesApi.get(`/reviews/${review_id}/comments`).then((res) => {
     return res.data.comments;
   });

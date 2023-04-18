@@ -97,6 +97,11 @@ header li, header a {
         border-bottom: 1px solid #6A8895;
         padding: 20px 0;
     }
+
+    .comments {
+        width: 100vw;
+        margin: 5px;
+    }
  }
 
 @media screen and (min-width: 600px) and (max-width: 1200px) {
@@ -110,6 +115,11 @@ header li, header a {
         border: 1px solid #6A8895;
         padding: 20px;
         border-radius: 5px;
+        }
+
+        .comments {
+            width: 100vw;
+            margin: 5px;
         }
 }
 
@@ -127,10 +137,21 @@ header li, header a {
         }
 
         /* single-review */
-.review {
-    width: 50vw;
-    margin: auto;
-}
+    .review {
+        width: 50vw;
+        margin: auto;
+    }
+
+    .comments {
+        width: 50vw;
+        margin: auto;
+    }
+
+    .no-comments {
+            width: 100vw;
+            margin: 5px;
+            font-size: 1.4rem;
+    }
 
 
 }
@@ -185,10 +206,7 @@ header li, header a {
 
 /* Comments */
 
-.comments {
-    width: 50vw;
-    margin: auto;
-}
+
 
 .comments li {
     margin: 40px 0;

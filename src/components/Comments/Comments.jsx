@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { getComments } from "../../api"
+import { getCommentsById } from "../../api"
 import { useState } from "react";
 
 export const Comments = ({review_id}) => {
@@ -9,7 +9,7 @@ export const Comments = ({review_id}) => {
     
     const fetchComments = async (review_id) => {
         setIsLoading(true);
-        const commentsData = await getComments(review_id)
+        const commentsData = await getCommentsById(review_id)
             setComments(commentsData);
             setIsLoading(false);
       }
@@ -18,11 +18,11 @@ export const Comments = ({review_id}) => {
     }, [])
 
     return (
+        isLoading ? <p>Loading</p> :
         comments ?
         <ul className="comments">
             <li><h3>Comments</h3></li>
             {comments.map(comment => {
-                console.log(comment)
                 return <li key={comment.comment_id}>
                     <div>
                     <h4>{comment.author}</h4>
@@ -32,7 +32,7 @@ export const Comments = ({review_id}) => {
                     <p className="votes">votes: {comment.votes}</p>
                 </li>
             })}
-        </ul> : null
+        </ul> : <h4 className="no-comments">This post has no comments</h4>
     )
 
 }
