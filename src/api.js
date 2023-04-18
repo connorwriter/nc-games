@@ -9,3 +9,9 @@ export const getReviews = () => {
     return res.data.reviews;
   });
 };
+
+export const getReviewById = (review_id) => {
+  return ncGamesApi.get(`/reviews/${review_id}`).then((res) => {
+    return res.data.review;
+  });
+};
