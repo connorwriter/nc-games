@@ -20,7 +20,7 @@ export const Comments = ({review_id}) => {
     return (
         isLoading ? <p>Loading</p> :
         comments ?
-        <ul className="comments">
+        <ul className="comment-list">
             <li><h3>Comments</h3></li>
             {comments.map(comment => {
                 return <li key={comment.comment_id}>
