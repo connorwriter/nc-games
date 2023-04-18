@@ -13,11 +13,14 @@ p, h2, h3, h4 {
 }
 
 h1 {
-    color: #F5F7F4;
+    color: #221827;
+    background-color: #54DBB6;
+    width: fit-content;
+    padding: 10px;
 }
 
 header a {
-    color: #221827;
+    color: #6A8895;
 }
 
 /* Header */
@@ -27,12 +30,11 @@ header {
     margin-bottom: 40px;
     border-bottom: 1px solid black;
     padding: 20px 0 20px 0;
-    background-color: #6A8895;
 }
 
 header > nav > h1 {
     text-align: left;
-    padding: 0 0 20px 40px;
+    margin: 0 0 20px 40px;
 }
 
 header > nav > ul {
