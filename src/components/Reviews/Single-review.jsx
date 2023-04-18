@@ -2,6 +2,7 @@ import { getReviewById } from "../../api";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Header } from "../Header/Header";
+import { Comments } from "../Comments/Comments";
 
 export const SingleReview = (props) => {
     const [review, setReview] = useState([]);
@@ -37,12 +38,13 @@ export const SingleReview = (props) => {
         </div>
         <h2>{review.title}</h2>
         <img src={review.review_img_url} alt={review.title} />
-        <p className="review-votes">votes: {review.votes}</p>
+        <p className="votes">votes: {review.votes}</p>
         <p className="review-body">{review.review_body}</p>
-
-
-
+      
         </section>}
+        <section className="comments">
+          <Comments review_id={review_id}/>
+        </section>
         </main>
     )
     }
