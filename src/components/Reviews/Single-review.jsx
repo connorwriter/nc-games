@@ -1,5 +1,6 @@
 import { getReviewById } from "../../api";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { Header } from "../Header/Header";
 
 export const SingleReview = (props) => {
@@ -7,8 +8,7 @@ export const SingleReview = (props) => {
     const [isLoading, setIsLoading] = useState(false);
 
     const formattedDate = new Date(review.created_at).toDateString();
-
-    const review_id = /\d+/.exec(window.location.pathname);
+    const {review_id} = useParams();
 
     const fetchReview = async (id) => {
         setIsLoading(true);
@@ -25,6 +25,7 @@ export const SingleReview = (props) => {
         
         <main>
         <Header />
+          {isLoading ? <p>Loading</p> : 
         <section className="review">
           <div className="review-flex">
         <p className="review-category">{review.category}</p>
@@ -41,7 +42,7 @@ export const SingleReview = (props) => {
 
 
 
-        </section> 
+        </section>}
         </main>
     )
     }
