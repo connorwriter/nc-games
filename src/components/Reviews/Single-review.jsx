@@ -4,13 +4,14 @@ import { useParams } from "react-router-dom";
 import { Header } from "../Header/Header";
 import { Comments } from "../Comments/Comments";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 
 export const SingleReview = (props) => {
     const [review, setReview] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [voteDisabled, setVoteDisabled] = useState(false);
+    const [upvoteDisabled, setUpvoteDisabled] = useState(false);
+    const [downvoteDisabled, setDownvoteDisabled] = useState(false);
     const [error, setError] = useState(null);
     const [votes, setVotes] = useState(review.votes)
 
@@ -29,27 +30,36 @@ export const SingleReview = (props) => {
       const updateReviewVote = async (id, increment) => {
         try {
 
-          const review = await patchReviewVote(id, increment)
-          setReview(review)
+          await patchReviewVote(id, increment)
         }
         catch (error){
-          setError(error)
+          console.log(error)
+          setError("something went wrong")
+          setVotes((currentVotes) => {
+            return currentVotes - 1
+          })
         }
       }
 
-      const handleClick = () => {
+
+      const handleUpvote = () => {
         updateReviewVote(review_id, 1);
-        setVoteDisabled(true);
+        setUpvoteDisabled(true);
+        setDownvoteDisabled(false);
         setVotes(votes + 1)
+      }
+
+      const handleDownvote = () => {
+        updateReviewVote(review_id, -1);
+        setDownvoteDisabled(true);
+        setUpvoteDisabled(false);
+        setVotes(votes - 1)
       }
 
       useEffect(() => {
         fetchReview(review_id);
       }, []);
 
-      if (error) {
-        return <p>{error}</p>;
-      }
       return (
         
         <main>
@@ -66,7 +76,8 @@ export const SingleReview = (props) => {
         </div>
         <h2>{review.title}</h2>
         <img src={review.review_img_url} alt={review.title} />
-        <p className="votes"><span>votes: {votes}</span> <button disabled={voteDisabled} onClick={handleClick}className="upvote-btn"><FontAwesomeIcon className="upvote" icon={faChevronUp} /></button></p>
+        <p className="votes"><button disabled={upvoteDisabled} onClick={handleUpvote}className="vote-btn"><FontAwesomeIcon className="vote" icon={faChevronUp} /></button><span>votes: {votes}</span><button disabled={downvoteDisabled} onClick={handleDownvote}className="vote-btn"><FontAwesomeIcon className="vote" icon={faChevronDown} /></button>{error && <p>something went wrong</p>}</p>
+        
         <p className="review-body">{review.review_body}</p>
       
         </section>}

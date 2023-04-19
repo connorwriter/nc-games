@@ -17,6 +17,7 @@ h1 {
     background-color: #54DBB6;
     width: fit-content;
     padding: 10px;
+    font-size: 2rem;
 }
 
 header a {
@@ -209,7 +210,7 @@ header li, header a {
 }
 
 .votes span {
-    margin-right: 10px;
+    margin-inline: 10px;
 }
 
 /* Comments */
@@ -247,20 +248,20 @@ header li, header a {
     font-size: 2rem;
 }
 
-.upvote {
+.vote {
     color:#221827;
     
     padding: 5px;
     
 }
 
-.upvote-btn {
+.vote-btn {
     background-color:#54DBB6;
     border-radius: 100%;
     border: 0;
 }
 
-.upvote-btn:disabled {
+.vote-btn:disabled {
     background-color: #6A8895;
     color: #221827;
     opacity: 1;
