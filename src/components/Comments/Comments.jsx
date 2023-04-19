@@ -10,8 +10,8 @@ export const Comments = ({review_id}) => {
     const fetchComments = async (review_id) => {
         setIsLoading(true);
         const commentsData = await getCommentsById(review_id)
-            setComments(commentsData);
             setIsLoading(false);
+            setComments(commentsData);
       }
     useEffect(() => {
         fetchComments(review_id)

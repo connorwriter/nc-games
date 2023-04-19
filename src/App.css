@@ -17,6 +17,7 @@ h1 {
     background-color: #54DBB6;
     width: fit-content;
     padding: 10px;
+    font-size: 2rem;
 }
 
 header a {
@@ -100,8 +101,10 @@ header li, header a {
 
     .comments {
         width: 100vw;
-        margin: 5px;
+        padding: 10px;
     }
+
+
  }
 
 @media screen and (min-width: 600px) and (max-width: 1200px) {
@@ -116,6 +119,7 @@ header li, header a {
         padding: 20px;
         border-radius: 5px;
         }
+
 
         .comments {
             width: 100vw;
@@ -191,17 +195,22 @@ header li, header a {
     grid-column: 1 / -1;
     font-size: 1.2rem;
 }
-
-.review img, .review h2, .review p {
+ .review h2, .review p {
     margin: 10px;
 }
 
 .votes {
-    display: inline;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     width: fit-content;
     padding: 10px;
     border: 1px solid #221827;
     border-radius: 10px;
+}
+
+.votes span {
+    margin-inline: 10px;
 }
 
 /* Comments */
@@ -222,6 +231,7 @@ header li, header a {
 
 .comments li div h4, .comments li div p {
     margin: 0;
+    width: fit-content;
 }
 
 .comments li p {
@@ -236,6 +246,25 @@ header li, header a {
 
 .comments h3 {
     font-size: 2rem;
+}
+
+.vote {
+    color:#221827;
+    
+    padding: 5px;
+    
+}
+
+.vote-btn {
+    background-color:#54DBB6;
+    border-radius: 100%;
+    border: 0;
+}
+
+.vote-btn:disabled {
+    background-color: #6A8895;
+    color: #221827;
+    opacity: 1;
 }
 
 

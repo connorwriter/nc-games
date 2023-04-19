@@ -21,3 +21,11 @@ export const getCommentsById = (review_id) => {
     return res.data.comments;
   });
 };
+export const patchReviewVote = (review_id, increment) => {
+  return ncGamesApi
+    .patch(`/reviews/${review_id}`, { inc_votes: increment })
+    .then((res) => {
+      console.log(res);
+      return res.data.review;
+    });
+};
