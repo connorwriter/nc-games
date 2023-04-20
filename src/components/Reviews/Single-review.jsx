@@ -94,7 +94,7 @@ export const SingleReview = (props) => {
         </section>}
         
         <section className="comments">
-          <AddComment review_id={review_id} setComments={setComments}/>
+          <AddComment review_id={review_id} comments={comments} setComments={setComments}/>
           <Comments review_id={review_id} comments={comments} setComments={setComments}/>
         </section>
         </main>

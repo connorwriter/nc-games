@@ -3,7 +3,7 @@ import { faPlus, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 import { getUsers, postNewComment } from '../../api';
 
-export const AddComment = ({review_id, setComments}) => {
+export const AddComment = ({review_id, setComments, comments}) => {
 
     const [showAddComment, setShowAddComment] = useState(false);
     const [commentBody, setCommentBody] = useState();
@@ -30,14 +30,17 @@ export const AddComment = ({review_id, setComments}) => {
         createNewComment(review_id, e.target[0].value, user)
         if(showAddComment) {
             setShowAddComment(false);
-            setCommentPosted(true)
+            // setCommentPosted(true)
             
         }
     }
 
     const createNewComment = async (review_id, body, user) => {
         try {
-            await postNewComment(review_id, body, user)
+            await postNewComment(review_id, body, user).then(res => {
+                console.log(res);
+                setComments((currComments) => [res, ...currComments])
+            })
         }
         catch (error) {
             console.log(error);

@@ -31,7 +31,11 @@ export const patchReviewVote = (review_id, increment) => {
 
 export const postNewComment = (review_id, body, user) => {
   const comment = { username: user, body: body };
-  return ncGamesApi.post(`/reviews/${review_id}/comments`, comment);
+  return ncGamesApi
+    .post(`/reviews/${review_id}/comments`, comment)
+    .then((res) => {
+      return res.data.comment;
+    });
 };
 
 export const getUsers = () => {
