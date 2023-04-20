@@ -37,10 +37,10 @@ export const AddComment = ({review_id, setComments, comments}) => {
 
     const createNewComment = async (review_id, body, user) => {
         try {
-            await postNewComment(review_id, body, user).then(res => {
-                console.log(res);
-                setComments((currComments) => [res, ...currComments])
-            })
+            const created_at = new Date();
+            const comment = {review_id: review_id, body: body, author: user, created_at: created_at, votes: 0 }
+            setComments((currComments) => [comment, ...currComments])
+            await postNewComment(review_id, body, user)
         }
         catch (error) {
             console.log(error);
