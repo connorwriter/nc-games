@@ -30,7 +30,7 @@ export const AddComment = ({review_id, setComments, comments}) => {
         createNewComment(review_id, e.target[0].value, user)
         if(showAddComment) {
             setShowAddComment(false);
-            // setCommentPosted(true)
+            setCommentBody("");
             
         }
     }
