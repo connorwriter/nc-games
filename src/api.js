@@ -45,3 +45,9 @@ export const getUsers = () => {
 export const getReviewsByCategory = (category) => {
   return ncGamesApi.get(`/reviews?category=${category}`);
 };
+
+export const getCategories = () => {
+  return ncGamesApi.get(`/categories`).then((res) => {
+    return res.data.categories;
+  });
+};

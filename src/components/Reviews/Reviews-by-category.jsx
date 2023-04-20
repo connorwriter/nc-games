@@ -3,6 +3,7 @@ import { Header } from "../Header/Header";
 import { Link } from "react-router-dom";
 import { getReviewsByCategory } from "../../api";
 import { useEffect, useState } from "react";
+import { FilterReviewsByCategory } from "./Filter-reviews-by-category";
 
 export const ReviewsByCategory = () => {
 
@@ -19,7 +20,7 @@ export const ReviewsByCategory = () => {
       const category = useParams();
       useEffect(() => {
         fetchReviewsByCategory(category.category);
-      }, [])
+      }, [category])
 
 
     return ( 
@@ -27,6 +28,7 @@ export const ReviewsByCategory = () => {
     <Header />
     <section>
     <h2 className="review-list-title">{category.category} reviews</h2>
+    <FilterReviewsByCategory />
     <ul className="review-list">
         {isLoading ? <li>Loading</li> : reviewsByCategory.map(review => {
             return <li key={review.review_id}>
