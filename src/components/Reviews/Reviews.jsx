@@ -34,7 +34,7 @@ export const Reviews = () => {
                     <h4>{review.owner}</h4>
                     <div>
                     <p>Designer: {review.designer}</p>
-                    <p className="review-category">{review.category}</p>
+                    <Link to={`/category/reviews/${review.category}`}><p className="review-category">{review.category}</p></Link>
                     </div>
                 </li>
             })}

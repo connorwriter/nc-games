@@ -41,3 +41,7 @@ export const postNewComment = (review_id, body, user) => {
 export const getUsers = () => {
   return ncGamesApi.get(`/users`);
 };
+
+export const getReviewsByCategory = (category) => {
+  return ncGamesApi.get(`/reviews?category=${category}`);
+};
