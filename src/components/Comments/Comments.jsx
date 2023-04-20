@@ -16,13 +16,14 @@ export const Comments = ({review_id, comments, setComments, commentError}) => {
         fetchComments(review_id)
     }, [])
 
-    if(commentError) {
-        return <p className="comment-error">{commentError}</p>
-    }
+    // if(commentError) {
+    //     return <p className="comment-error">{commentError}</p>
+    // }
     return (
         isLoading ? <p>Loading</p> :
         comments ?
         <ul className="comment-list">
+            {commentError ? <p className="comment-error">{commentError}</p> : null}
             {comments.map(comment => {
                 return <li key={comment.comment_id}>
                     <div>
