@@ -324,3 +324,11 @@ header li, header a {
     margin-left: 10px;
 }
 
+.comment-error {
+    border: 1px solid #221827;
+    width: fit-content;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 10px 0;
+}
+

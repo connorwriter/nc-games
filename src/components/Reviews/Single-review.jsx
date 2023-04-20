@@ -16,6 +16,7 @@ export const SingleReview = (props) => {
     const [error, setError] = useState(null);
     const [votes, setVotes] = useState(review.votes);
     const [comments, setComments] = useState([]);
+    const [commentError, setCommentError] = useState();
 
     const formattedDate = new Date(review.created_at).toDateString();
     const {review_id} = useParams();
@@ -94,8 +95,8 @@ export const SingleReview = (props) => {
         </section>}
         
         <section className="comments">
-          <AddComment review_id={review_id} comments={comments} setComments={setComments}/>
-          <Comments review_id={review_id} comments={comments} setComments={setComments}/>
+          <AddComment review_id={review_id} comments={comments} setComments={setComments} setCommentError={setCommentError}/>
+          <Comments review_id={review_id} comments={comments} setComments={setComments} commentError={commentError}/>
         </section>
         </main>
     )

@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { getCommentsById } from "../../api"
 import { useState } from "react";
 
-export const Comments = ({review_id, comments, setComments}) => {
+export const Comments = ({review_id, comments, setComments, commentError}) => {
 
     const [isLoading, setIsLoading] = useState(true);
     
@@ -16,6 +16,9 @@ export const Comments = ({review_id, comments, setComments}) => {
         fetchComments(review_id)
     }, [])
 
+    if(commentError) {
+        return <p className="comment-error">{commentError}</p>
+    }
     return (
         isLoading ? <p>Loading</p> :
         comments ?

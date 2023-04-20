@@ -3,13 +3,12 @@ import { faPlus, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 import { getUsers, postNewComment } from '../../api';
 
-export const AddComment = ({review_id, setComments, comments}) => {
+export const AddComment = ({review_id, setComments, setCommentError}) => {
 
     const [showAddComment, setShowAddComment] = useState(false);
     const [commentBody, setCommentBody] = useState();
     const [users, setUsers] = useState([]);
     const [user, setUser] = useState();
-    const [commentPosted, setCommentPosted] = useState(false);
 
     useEffect(() => {
         fetchUsers().then(res => {
@@ -31,7 +30,6 @@ export const AddComment = ({review_id, setComments, comments}) => {
         if(showAddComment) {
             setShowAddComment(false);
             setCommentBody("");
-            
         }
     }
 
@@ -41,11 +39,12 @@ export const AddComment = ({review_id, setComments, comments}) => {
             const comment = {review_id: review_id, body: body, author: user, created_at: created_at, votes: 0 }
             setComments((currComments) => [comment, ...currComments])
             await postNewComment(review_id, body, user)
+        } 
+        catch (err) {
+            setCommentError("something went wrong")
+            }
         }
-        catch (error) {
-            console.log(error);
-        }
-    }
+    
 
     const fetchUsers = async () => {
         try {
@@ -53,11 +52,9 @@ export const AddComment = ({review_id, setComments, comments}) => {
         } catch (error) {
             console.log(error)
         }
-    }
+    } 
 
-    if(commentPosted) {
-        return <p className="comment-success-msg">Comment Posted <FontAwesomeIcon className="comment-success-icon" icon={faCheck} /></p>
-    }
+    
 
     return ( <>
     <button className="add-comment-btn" onClick={handleClick}><h2 className="add-comment-title"><FontAwesomeIcon className="add-comment-icon" icon={faPlus} />Add Comment</h2></button>
