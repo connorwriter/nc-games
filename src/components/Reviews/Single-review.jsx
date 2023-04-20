@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Header } from "../Header/Header";
 import { Comments } from "../Comments/Comments";
+import { AddComment } from "../Comments/Add-comment";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
@@ -13,7 +14,9 @@ export const SingleReview = (props) => {
     const [upvoteDisabled, setUpvoteDisabled] = useState(false);
     const [downvoteDisabled, setDownvoteDisabled] = useState(false);
     const [error, setError] = useState(null);
-    const [votes, setVotes] = useState(review.votes)
+    const [votes, setVotes] = useState(review.votes);
+    const [comments, setComments] = useState([]);
+    const [commentError, setCommentError] = useState();
 
     const formattedDate = new Date(review.created_at).toDateString();
     const {review_id} = useParams();
@@ -33,7 +36,6 @@ export const SingleReview = (props) => {
           await patchReviewVote(id, increment)
         }
         catch (error){
-          console.log(error)
           setError("something went wrong")
           setVotes((currentVotes) => {
             return currentVotes - 1
@@ -44,15 +46,25 @@ export const SingleReview = (props) => {
 
       const handleUpvote = () => {
         updateReviewVote(review_id, 1);
-        setUpvoteDisabled(true);
-        setDownvoteDisabled(false);
+        if (downvoteDisabled) {
+          setDownvoteDisabled(false);
+        } else {
+
+          setUpvoteDisabled(true);
+          setDownvoteDisabled(false);
+        }
         setVotes(votes + 1)
       }
 
       const handleDownvote = () => {
         updateReviewVote(review_id, -1);
-        setDownvoteDisabled(true);
-        setUpvoteDisabled(false);
+        if(upvoteDisabled) {
+          setUpvoteDisabled(false)
+        } else {
+
+          setDownvoteDisabled(true);
+          setUpvoteDisabled(false);
+        }
         setVotes(votes - 1)
       }
 
@@ -74,7 +86,7 @@ export const SingleReview = (props) => {
 
         <p className="publish-date"><i>Created:</i> <b>{formattedDate}</b></p>
         </div>
-        <h2>{review.title}</h2>
+        <h2 className="review-title">{review.title}</h2>
         <img src={review.review_img_url} alt={review.title} />
         <p className="votes"><button disabled={upvoteDisabled} onClick={handleUpvote}className="vote-btn"><FontAwesomeIcon className="vote" icon={faChevronUp} /></button><span>votes: {votes}</span><button disabled={downvoteDisabled} onClick={handleDownvote}className="vote-btn"><FontAwesomeIcon className="vote" icon={faChevronDown} /></button>{error && <p>something went wrong</p>}</p>
         
@@ -83,7 +95,8 @@ export const SingleReview = (props) => {
         </section>}
         
         <section className="comments">
-          <Comments review_id={review_id}/>
+          <AddComment review_id={review_id} comments={comments} setComments={setComments} setCommentError={setCommentError}/>
+          <Comments review_id={review_id} comments={comments} setComments={setComments} commentError={commentError}/>
         </section>
         </main>
     )

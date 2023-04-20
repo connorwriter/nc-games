@@ -25,7 +25,19 @@ export const patchReviewVote = (review_id, increment) => {
   return ncGamesApi
     .patch(`/reviews/${review_id}`, { inc_votes: increment })
     .then((res) => {
-      console.log(res);
       return res.data.review;
     });
+};
+
+export const postNewComment = (review_id, body, user) => {
+  const comment = { username: user, body: body };
+  return ncGamesApi
+    .post(`/reviews/${review_id}/comments`, comment)
+    .then((res) => {
+      return res.data.comment;
+    });
+};
+
+export const getUsers = () => {
+  return ncGamesApi.get(`/users`);
 };
