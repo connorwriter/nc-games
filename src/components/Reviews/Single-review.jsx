@@ -45,15 +45,25 @@ export const SingleReview = (props) => {
 
       const handleUpvote = () => {
         updateReviewVote(review_id, 1);
-        setUpvoteDisabled(true);
-        setDownvoteDisabled(false);
+        if (downvoteDisabled) {
+          setDownvoteDisabled(false);
+        } else {
+
+          setUpvoteDisabled(true);
+          setDownvoteDisabled(false);
+        }
         setVotes(votes + 1)
       }
 
       const handleDownvote = () => {
         updateReviewVote(review_id, -1);
-        setDownvoteDisabled(true);
-        setUpvoteDisabled(false);
+        if(upvoteDisabled) {
+          setUpvoteDisabled(false)
+        } else {
+
+          setDownvoteDisabled(true);
+          setUpvoteDisabled(false);
+        }
         setVotes(votes - 1)
       }
 
