@@ -174,6 +174,7 @@ header li, header a {
     align-items: center;
 }
 
+
 .review-flex {
     display: flex;
     flex-direction: row;
@@ -249,9 +250,6 @@ header li, header a {
     font-size: 1.2rem;
 }
 
-.comments h3 {
-    font-size: 2rem;
-}
 
 .vote {
     color:#221827;
@@ -272,4 +270,55 @@ header li, header a {
     opacity: 1;
 }
 
+.add-comment-title {
+    font-size: 1rem;
+    border: 1px solid #221827;
+    width: fit-content;
+    padding: 10px;
+    border: 1px solid #221827;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.add-comment-icon {
+    padding: 0 10px 0 0;
+}
+
+.add-comment-btn {
+    background-color: transparent;
+    border: 0;
+}
+
+.add-comment textarea {
+    width: 100%;
+    height: 200px;
+}
+
+.add-comment button {
+    width: fit-content;
+    padding: 10px;
+    border: 0;
+    background-color:#54DBB6;
+    border-radius: 10px;
+}
+
+.comment-success-msg {
+    font-size: 1.2rem;
+    color: #221827;
+    width: fit-content;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 20px 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid #221827;
+}
+
+.comment-success-icon {
+    padding: 5px;
+    background-color:#54DBB6;
+    border-radius: 100%;
+    margin-left: 10px;
+}
 

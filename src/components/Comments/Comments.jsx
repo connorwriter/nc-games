@@ -2,10 +2,9 @@ import { useEffect } from "react"
 import { getCommentsById } from "../../api"
 import { useState } from "react";
 
-export const Comments = ({review_id}) => {
-    const [comments, setComments] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+export const Comments = ({review_id, comments, setComments}) => {
 
+    const [isLoading, setIsLoading] = useState(true);
     
     const fetchComments = async (review_id) => {
         setIsLoading(true);
@@ -21,7 +20,6 @@ export const Comments = ({review_id}) => {
         isLoading ? <p>Loading</p> :
         comments ?
         <ul className="comment-list">
-            <li><h3>Comments</h3></li>
             {comments.map(comment => {
                 return <li key={comment.comment_id}>
                     <div>
