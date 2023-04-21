@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { Header } from "../Header/Header";
 import { Link } from "react-router-dom";
-import { getReviewsByCategory } from "../../api";
+import { getReviews } from "../../api";
 import { useEffect, useState } from "react";
 import { FilterReviewsByCategory } from "./Filter-reviews-by-category";
 
@@ -12,7 +12,7 @@ export const ReviewsByCategory = () => {
 
     const fetchReviewsByCategory = async (category) => {
         setIsLoading(true);
-        const reviews = await getReviewsByCategory(category);
+        const reviews = await getReviews(category);
             setReviewsByCategory(reviews.data.reviews);
             setIsLoading(false);
       }

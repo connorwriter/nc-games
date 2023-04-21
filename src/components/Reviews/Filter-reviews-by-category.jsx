@@ -31,12 +31,15 @@ export const FilterReviewsByCategory = () => {
 
     return (
         <form className="filter-reviews" onSubmit={handleSubmit}>
-        <select name="categories" id="categories" onChange={e => setCategory(e.target.value)} required>
+    
+
+        <select className="box" name="categories" id="categories" onChange={e => setCategory(e.target.value)} required>
                 <option value="">Choose category</option>
                 {categories.map(category => {
                     return <option key={category.slug} value={category.slug}>{category.slug}</option>
                 })}
             </select>
+            
             <button>Filter</button>
         </form>
     )
