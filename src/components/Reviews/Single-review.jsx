@@ -6,6 +6,7 @@ import { Comments } from "../Comments/Comments";
 import { AddComment } from "../Comments/Add-comment";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { Link } from "react-router-dom";
 
 
 export const SingleReview = (props) => {
@@ -79,7 +80,7 @@ export const SingleReview = (props) => {
         {isLoading ? <p>Loading</p> : 
         <section className="review">
           <div className="review-flex">
-        <p className="review-category">{review.category}</p>
+        <Link to={`/category/reviews/${review.category}`}><p className="review-category">{review.category}</p></Link>
         <p><i>by</i> <b>{review.owner}</b></p>
           </div>
         <div>

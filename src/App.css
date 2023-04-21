@@ -332,3 +332,36 @@ header li, header a {
     margin: 10px 0;
 }
 
+.filter-reviews {
+    margin: 10px 40px;
+}
+
+
+.box {
+    border: 1px solid #221827;
+    font-size: 18px;
+    color: #221827;
+    background-color: #F5F7F4;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.filter-reviews button {
+    background-color: #54DBB6;
+    padding: 12.5px;
+    border-radius: 10px;
+    border: none;
+    margin-left: 10px;
+    font-size: 1rem;
+}
+
+.categories-loading {
+    margin-left: 40px;
+    width: fit-content;
+    border: 1px solid #221827;
+    font-size: 18px;
+    color: #221827;
+    background-color: #F5F7F4;
+    border-radius: 10px;
+    padding: 10px;
+}
