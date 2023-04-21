@@ -22,7 +22,7 @@ export const FilterReviewsByCategory = () => {
         let styledCategory = e.target.value.charAt(0).toLowerCase() + e.target.value.slice(1);
         styledCategory = styledCategory.replace(/\s/g, '-')
         setCategory(styledCategory)
-        navigate(`/category/reviews/${styledCategory}`)
+        navigate(`/category/reviews/${styledCategory}?sort_by=title&order=asc`)
     }
 
     useEffect(()=> {

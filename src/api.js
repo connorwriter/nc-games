@@ -9,7 +9,9 @@ export const getReviews = (category, query) => {
     if (category) {
       return ncGamesApi.get(`/reviews?category=${category}&sort_by=${query}`);
     } else {
-      return ncGamesApi.get(`/reviews?sort_by=${query}`);
+      return ncGamesApi.get(
+        `/reviews?sort_by=${query}&sort_by=title&order=asc`
+      );
     }
   } else {
     if (category) {

@@ -14,7 +14,6 @@ export const SortBy = ({setReviews, setIsLoading, category}) => {
         if(category) {
             navigate(`/category/reviews/${category}?${sortBy}`)
         } else {
-            console.log(sortBy);
             navigate(`/reviews?sort_by=${sortBy}`)
         }
     }
