@@ -21,11 +21,15 @@ export const SortBy = ({setReviews, setIsLoading, category}) => {
     return (
         <form className="sort-by">
             <select name="" id="" onChange={handleChange}>
-            <option value="title">Sort by: Review Title</option>
-            <option value="designer">Sort by: Designer</option>
-            <option value="owner">Sort by: Owner</option>
-            <option value="category">Sort by: Category</option>
-            <option value="created_at">Sort by: Newest</option>
+            <option value="title&order=asc">Sort by: Title (A - Z)</option>
+            <option value="title&order=desc">Sort by: Title (Z - A)</option>
+            <option value="designer&order=asc">Sort by: Designer (A - Z)</option>
+            <option value="designer&order=desc">Sort by: Designer (Z - A)</option>
+            <option value="owner&order=asc">Sort by: Owner (A - Z)</option>
+            <option value="owner&order=desc">Sort by: Owner (Z - A)</option>
+            <option value="category&order=asc">Sort by: Category (A -Z)</option>
+            <option value="category&order=desc">Sort by: Category (Z - A)</option>
+            <option value="created_at&order=asc">Sort by: Newest</option>
             <option value="created_at&order=desc">Sort by: Oldest</option>
             </select>
         </form>

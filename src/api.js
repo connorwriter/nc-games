@@ -7,25 +7,17 @@ const ncGamesApi = axios.create({
 export const getReviews = (category, query) => {
   if (query) {
     if (category) {
-      if (query === "created_at&order=desc") {
-        return ncGamesApi.get(`/reviews?category=${category}&sort_by=${query}`);
-      } else {
-        return ncGamesApi.get(
-          `/reviews?category=${category}&sort_by=${query}&order=asc`
-        );
-      }
+      return ncGamesApi.get(`/reviews?category=${category}&sort_by=${query}`);
     } else {
-      if (query === "created_at&order=desc") {
-        return ncGamesApi.get(`/reviews?sort_by=${query}`);
-      } else {
-        return ncGamesApi.get(`/reviews?sort_by=${query}&order=asc`);
-      }
+      return ncGamesApi.get(`/reviews?sort_by=${query}`);
     }
   } else {
     if (category) {
-      return ncGamesApi.get(`/reviews?category=${category}`);
+      return ncGamesApi.get(
+        `/reviews?category=${category}&sort_by=title&order=asc`
+      );
     } else {
-      return ncGamesApi.get(`/reviews`).then((res) => {
+      return ncGamesApi.get(`/reviews?sort_by=title&order=asc`).then((res) => {
         return res.data.reviews;
       });
     }
