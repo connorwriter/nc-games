@@ -22,12 +22,14 @@ export const ReviewsByCategory = () => {
         fetchReviewsByCategory(category.category);
       }, [category])
 
+      let categoryTitle = category.category.charAt(0).toUpperCase() + category.category.slice(1);
+      categoryTitle = categoryTitle.replace(/-/g, ' ');
 
     return ( 
         <main>
     <Header />
     <section>
-    <h2 className="review-list-title">{category.category} reviews</h2>
+    <h2 className="review-list-title">{categoryTitle} reviews</h2>
     <FilterReviewsByCategory />
     <ul className="review-list">
         {isLoading ? <li>Loading</li> : reviewsByCategory.map(review => {
