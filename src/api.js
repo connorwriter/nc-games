@@ -4,13 +4,31 @@ const ncGamesApi = axios.create({
   baseURL: "https://nc-games-8it8.onrender.com/api",
 });
 
-export const getReviews = (category) => {
-  if (category) {
-    return ncGamesApi.get(`/reviews?category=${category}`);
+export const getReviews = (category, query) => {
+  if (query) {
+    if (category) {
+      if (query === "created_at&order=desc") {
+        return ncGamesApi.get(`/reviews?category=${category}&sort_by=${query}`);
+      } else {
+        return ncGamesApi.get(
+          `/reviews?category=${category}&sort_by=${query}&order=asc`
+        );
+      }
+    } else {
+      if (query === "created_at&order=desc") {
+        return ncGamesApi.get(`/reviews?sort_by=${query}`);
+      } else {
+        return ncGamesApi.get(`/reviews?sort_by=${query}&order=asc`);
+      }
+    }
   } else {
-    return ncGamesApi.get("/reviews").then((res) => {
-      return res.data.reviews;
-    });
+    if (category) {
+      return ncGamesApi.get(`/reviews?category=${category}`);
+    } else {
+      return ncGamesApi.get(`/reviews`).then((res) => {
+        return res.data.reviews;
+      });
+    }
   }
 };
 
