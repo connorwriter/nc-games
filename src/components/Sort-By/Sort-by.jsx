@@ -1,14 +1,22 @@
 import * as React from "react";
 import { getReviews } from "../../api"
+import { useNavigate } from "react-router-dom";
 
 
 export const SortBy = ({setReviews, setIsLoading, category}) => {
+    const navigate = useNavigate();
 
     
 
     const handleChange = (e) => {
         const sortBy = e.target.value;
         fetchReviews(category, sortBy);
+        if(category) {
+            navigate(`/category/reviews/${category}?${sortBy}`)
+        } else {
+            console.log(sortBy);
+            navigate(`/reviews?sort_by=${sortBy}`)
+        }
     }
 
     const fetchReviews = async (category, sortBy) => {
