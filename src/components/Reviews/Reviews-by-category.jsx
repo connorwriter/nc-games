@@ -12,7 +12,6 @@ export const ReviewsByCategory = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchReviewsByCategory = async (category) => {
-        console.log(category)
         setIsLoading(true);
         const reviews = await getReviews(category);
             setReviewsByCategory(reviews.data.reviews);

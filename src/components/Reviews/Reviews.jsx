@@ -4,20 +4,17 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FilterReviewsByCategory } from "./Filter-reviews-by-category";
 import { SortBy } from "../Sort-By/Sort-by";
-import { useNavigate } from "react-router-dom";
 
 export const Reviews = () => {
     
     const [reviews, setReviews] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const navigate = useNavigate();
 
     
     const fetchReviews = async () => {
         setIsLoading(true);
         const reviews = await getReviews()
             setReviews(reviews);
-            navigate(`/reviews?sort_by=title&order=asc`)
             setIsLoading(false);
             
       }

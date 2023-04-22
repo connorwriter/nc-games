@@ -4,24 +4,35 @@ const ncGamesApi = axios.create({
   baseURL: "https://nc-games-8it8.onrender.com/api",
 });
 
-export const getReviews = (category, query) => {
-  if (query) {
+export const getReviews = (category, queries) => {
+  if (queries) {
+    const parsedQueries = JSON.parse(queries);
     if (category) {
-      return ncGamesApi.get(`/reviews?category=${category}&sort_by=${query}`);
+      return ncGamesApi
+        .get(`/reviews`, {
+          params: {
+            category: category,
+            sort_by: parsedQueries.sort_by,
+            order: parsedQueries.order,
+          },
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
-      return ncGamesApi.get(
-        `/reviews?sort_by=${query}&sort_by=title&order=asc`
-      );
+      return ncGamesApi.get(`/reviews`, { params: parsedQueries });
     }
   } else {
     if (category) {
-      return ncGamesApi.get(
-        `/reviews?category=${category}&sort_by=title&order=asc`
-      );
-    } else {
-      return ncGamesApi.get(`/reviews?sort_by=title&order=asc`).then((res) => {
-        return res.data.reviews;
+      return ncGamesApi.get(`/reviews`, {
+        params: { category, sort_by: "title", order: "asc" },
       });
+    } else {
+      return ncGamesApi
+        .get(`/reviews`, { params: { sort_by: "title", order: "asc" } })
+        .then((res) => {
+          return res.data.reviews;
+        });
     }
   }
 };
