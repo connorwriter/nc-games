@@ -2,9 +2,8 @@ import { getReviews } from "../../api";
 import { Header } from "../Header/Header";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getCategories } from "../../api";
-import { useNavigate } from "react-router-dom";
 import { FilterReviewsByCategory } from "./Filter-reviews-by-category";
+import { SortBy } from "../Sort-By/Sort-by";
 
 export const Reviews = () => {
     
@@ -17,8 +16,8 @@ export const Reviews = () => {
         const reviews = await getReviews()
             setReviews(reviews);
             setIsLoading(false);
+            
       }
-
       
       useEffect(() => {
           fetchReviews();
@@ -31,7 +30,10 @@ export const Reviews = () => {
         <Header />
         <section>
         <h2 className="review-list-title">Reviews</h2>
+        <div className="options-bar">
         <FilterReviewsByCategory />
+        <SortBy setReviews={setReviews} setIsLoading={setIsLoading}/>
+        </div>
         <ul className="review-list">
             {isLoading ? <li>Loading</li> : reviews.map(review => {
                 return <li key={review.review_id}>

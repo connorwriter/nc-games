@@ -18,12 +18,11 @@ export const FilterReviewsByCategory = () => {
         }
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        let styledCategory = e.target[0].value.charAt(0).toLowerCase() + e.target[0].value.slice(1);
+    const handleChange = (e) => {
+        let styledCategory = e.target.value.charAt(0).toLowerCase() + e.target.value.slice(1);
         styledCategory = styledCategory.replace(/\s/g, '-')
+        setCategory(styledCategory)
         navigate(`/category/reviews/${styledCategory}`)
-
     }
 
     useEffect(()=> {
@@ -39,10 +38,10 @@ export const FilterReviewsByCategory = () => {
     }
 
     return (
-        <form className="filter-reviews" onSubmit={handleSubmit}>
+        <form className="filter-reviews">
     
 
-        <select className="box" name="categories" id="categories" onChange={e => setCategory(e.target.value)} required>
+        <select className="box" name="categories" id="categories" onChange={handleChange} required>
                 <option value="">Choose category</option>
                 {categories.map(category => {
                     let categoryTitle = category.slug.charAt(0).toUpperCase() + category.slug.slice(1);
@@ -51,7 +50,6 @@ export const FilterReviewsByCategory = () => {
                 })}
             </select>
             
-            <button>Filter</button>
         </form>
     )
 }

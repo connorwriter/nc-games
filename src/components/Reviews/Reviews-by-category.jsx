@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { getReviews } from "../../api";
 import { useEffect, useState } from "react";
 import { FilterReviewsByCategory } from "./Filter-reviews-by-category";
+import { SortBy } from "../Sort-By/Sort-by";
 
 export const ReviewsByCategory = () => {
 
@@ -30,7 +31,10 @@ export const ReviewsByCategory = () => {
     <Header />
     <section>
     <h2 className="review-list-title">{categoryTitle} reviews</h2>
+    <div className="options-bar">
     <FilterReviewsByCategory />
+    <SortBy setReviews={setReviewsByCategory} setIsLoading={setIsLoading} category={category.category}/>
+    </div>
     <ul className="review-list">
         {isLoading ? <li>Loading</li> : reviewsByCategory.map(review => {
             return <li key={review.review_id}>

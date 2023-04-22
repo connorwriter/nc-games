@@ -339,11 +339,11 @@ header li, header a {
 
 .box {
     border: 1px solid #221827;
-    font-size: 18px;
+    font-size: 1rem;
     color: #221827;
     background-color: #F5F7F4;
     border-radius: 10px;
-    padding: 10px;
+    padding: 5px;
 }
 
 .filter-reviews button {
@@ -364,4 +364,24 @@ header li, header a {
     background-color: #F5F7F4;
     border-radius: 10px;
     padding: 10px;
+}
+
+.options-bar {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.sort-by {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.sort-by select {
+    border: 1px solid #221827;
+    font-size: 1rem;
+    color: #221827;
+    background-color: #F5F7F4;
+    border-radius: 10px;
+    padding: 5px;
 }
